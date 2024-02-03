@@ -1,18 +1,19 @@
 const express = require("express");
 const router = express.Router();
-router.route("/").get((request, response)=>{
-    response.send("get api request")
-});
 
-router.route("/").post((request, response)=>{
-    response.send("get api request")
-});
-router.route("/:id").put((request, response)=>{
-    response.send(`Message updates ${request.params.id}`)
-});
+const { getContacts,
+    createContact,
+    getContact,
+    updateContact,
+    deleteContact} = require("../controllers/contactControllers");
 
-router.route("/:id").delete((request, response)=>{
-    response.send(`Message updates ${request.params.id}`)
-});
+
+router.route("/").get(getContacts).post(createContact);
+
+router.route("/:id").get(getContact).put(updateContact).delete(deleteContact);
+// router.route("/")post(createContact.);
+// router.route("/:id").put(updateContact);
+// router.route("/:id").delete(deleteContact);
+
 
 module.exports = router;
