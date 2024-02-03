@@ -9,7 +9,7 @@ const createContact =(request, response)=>{
     console.log("the new respone",request.body)
     const{name,email}= request.body;
     if (!name || !email){
-        return response.status(400)
+        return response.status(500).json({"messag":"Error"})
         throw new Error("All fields are mandatory")
     }
     response.status(200).json({message:"create contact "})
