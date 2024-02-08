@@ -3,6 +3,7 @@ const dotenv = require("dotenv").config();
 const errorHandler= require("./middleware/errorHandler");
 
 const app = express();
+connectDb();
 const port = process.env.PORT|| 3000;
 
 app.use(express.json());
