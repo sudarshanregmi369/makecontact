@@ -1,40 +1,66 @@
 const express = require("express")
 
 const asyncHandler = require("express-async-handler")
+const contact = require("../models/contactModel")
 
 // get all the contact
 const getContacts = asyncHandler(async (request, response)=>{
-    response.status(200).json({message:"Get all contact"})
+    const contacts =  await contact.find();
+    response.status(200).json({contacts})
 });
 
 // create new contact
 // post/api request  
 const createContact = asyncHandler(async (request, response)=>{
     console.log("the new respone",request.body)
-    const{name,email}= request.body;
-    if (!name || !email){
+    const{name,email,phone}= request.body;
+    if (!name || !email || !phone){
         return response.status(500).json({"messag":"Error"})
-        // throw new Error("All fields are mandatory")
+        throw new Error("All fields are mandatory")
     }
-    response.status(200).json({message:"create contact "})
+    const contactss  = await contact.create({
+        name,
+        email,
+        phone,
+    });
+    response.status(200).json({contact})
 })
 
 //get contact
 //post /api/contact/id
 const getContact= asyncHandler( async (request, response)=>{
-    response.send(`Message updates ${request.params.id}`)
+    const contacte = await contact.findById(request.params.id)
+    if (!contacte){
+        throw new Error("no contact found ");
+    }
+    response.send(contacte)
 });
 //update the contact
 //put
 const updateContact = asyncHandler(async(request, response)=>{
+    const contactU = await contact.findById(request.params.id)
+    if (!contactU){
+        throw new Error("no contact found ");
+    }
+    response.send(contactU)
+    const updatedContact = await contact.findByIdAndUpdate(
+        request.params.id,
+        request.body,
+        {new: true}
+    )
     
-    response.status(200).json({message:`update contact ${request.params.id}`})
+    response.send(updatedContact)
 });
 
 // contact 
 //post/api/contact /id 
 const deleteContact = asyncHandler (async(request, response)=>{
-    response.send(`Delete contact  with id:${request.params.id}`);
+    const contactDelete = await contact.findById(request.params.id)
+    if (!contactU){
+        throw new Error("no contact found ");
+    }
+    response.send(contactDelete);
+   
 });
 module.exports={
     getContacts,
