@@ -11,3 +11,4 @@ router.post("/login", (request,response)=>{
 router.post("/current", (request,response)=>{
     response.json({message:"current user"})
 });
+module.exports = router;
