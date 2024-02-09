@@ -8,7 +8,7 @@ router.post("/register",(request,response)=>{
 router.post("/login", (request,response)=>{
     response.json({message:  "login user"})
 });
-router.post("/current", (request,response)=>{
+router.get("/current", (request,response)=>{
     response.json({message:"current user"})
 });
 module.exports = router;
